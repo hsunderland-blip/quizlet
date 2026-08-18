@@ -1,1003 +1,467 @@
+```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>MathQuiz</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIRE 🔥</title>
 
-  <style>
+<style>
     * {
-      box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
     }
 
     body {
-      margin: 0;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      background: #8ed8ff;
+        background: #050505;
+        color: white;
+        min-height: 100vh;
     }
 
-    #codeScreen {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: #46178f;
-      color: white;
-      text-align: center;
-      padding-top: 110px;
+    /* CODE SCREEN */
+    #loginScreen {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background:
+            radial-gradient(circle at center, #3b1700 0%, #120800 35%, #050505 70%);
     }
 
-    #codeScreen h1 {
-      font-size: 60px;
-      margin: 10px;
+    .loginBox {
+        width: 420px;
+        max-width: 90%;
+        padding: 45px 35px;
+        text-align: center;
+        background: #0d0d0d;
+        border: 2px solid #ff6500;
+        border-radius: 18px;
+        box-shadow: 0 0 35px #ff650055;
     }
 
-    #codeScreen input {
-      width: 250px;
-      padding: 15px;
-      font-size: 20px;
-      text-align: center;
-      border: 0;
-      border-radius: 8px;
+    .fireLogo {
+        font-size: 65px;
+        margin-bottom: 5px;
     }
 
-    button {
-      padding: 13px 25px;
-      margin: 10px;
-      border: 0;
-      border-radius: 8px;
-      font-size: 18px;
-      cursor: pointer;
+    .loginBox h1 {
+        font-size: 50px;
+        letter-spacing: 8px;
+        color: #ff6500;
+        text-shadow: 0 0 20px #ff6500;
     }
 
-    #game {
-      display: none;
+    .loginBox p {
+        color: #aaa;
+        margin: 12px 0 25px;
     }
 
-    #hud {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      color: white;
-      font-weight: bold;
-      font-size: 19px;
-      text-shadow: 2px 2px 4px black;
-      z-index: 10;
+    #codeInput {
+        width: 100%;
+        padding: 15px;
+        font-size: 22px;
+        text-align: center;
+        letter-spacing: 5px;
+        background: #171717;
+        border: 2px solid #333;
+        color: white;
+        border-radius: 10px;
+        outline: none;
     }
 
-    #shopButton {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 10;
+    #codeInput:focus {
+        border-color: #ff6500;
+        box-shadow: 0 0 15px #ff650055;
     }
 
-    #shop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.75);
-      color: white;
-      z-index: 50;
-      text-align: center;
-      padding-top: 60px;
+    #enterButton {
+        width: 100%;
+        margin-top: 15px;
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        background: #ff6500;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
     }
 
-    .sled {
-      display: inline-block;
-      width: 190px;
-      padding: 15px;
-      margin: 10px;
-      background: rgba(255,255,255,.15);
-      border-radius: 12px;
+    #enterButton:hover {
+        background: #ff8533;
+        transform: scale(1.02);
+        box-shadow: 0 0 20px #ff650088;
     }
 
-    #crash {
-      display: none;
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%,-50%);
-      z-index: 30;
-      color: white;
-      text-align: center;
-      font-size: 45px;
-      font-weight: bold;
-      text-shadow: 3px 3px 5px black;
+    #error {
+        color: #ff3333;
+        margin-top: 15px;
+        display: none;
     }
-  </style>
+
+    /* MAIN WEBSITE */
+    #fireWebsite {
+        display: none;
+    }
+
+    header {
+        height: 75px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 35px;
+        background: #0b0b0b;
+        border-bottom: 1px solid #292929;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .logo {
+        font-size: 30px;
+        font-weight: bold;
+        letter-spacing: 5px;
+        color: #ff6500;
+        text-shadow: 0 0 15px #ff6500;
+    }
+
+    nav a {
+        color: #bbb;
+        text-decoration: none;
+        margin-left: 25px;
+        transition: 0.2s;
+    }
+
+    nav a:hover {
+        color: #ff6500;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 70px 20px 50px;
+        background:
+            radial-gradient(circle at center, #351400 0%, #090909 50%);
+    }
+
+    .hero h1 {
+        font-size: clamp(55px, 10vw, 100px);
+        color: #ff6500;
+        letter-spacing: 12px;
+        text-shadow:
+            0 0 10px #ff6500,
+            0 0 35px #ff6500;
+    }
+
+    .hero p {
+        color: #aaa;
+        font-size: 19px;
+        margin-top: 10px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 35px 20px;
+    }
+
+    .sectionTitle {
+        font-size: 28px;
+        margin-bottom: 20px;
+        border-left: 5px solid #ff6500;
+        padding-left: 12px;
+    }
+
+    /* GAME CARDS */
+    .games {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .gameCard {
+        min-height: 190px;
+        background: #101010;
+        border: 1px solid #292929;
+        border-radius: 15px;
+        padding: 25px;
+        transition: 0.25s;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .gameCard:hover {
+        transform: translateY(-6px);
+        border-color: #ff6500;
+        box-shadow: 0 10px 30px #ff650033;
+    }
+
+    .gameIcon {
+        font-size: 45px;
+    }
+
+    .gameCard h3 {
+        margin-top: 10px;
+        font-size: 23px;
+    }
+
+    .gameCard p {
+        color: #888;
+        margin-top: 5px;
+    }
+
+    .playButton {
+        margin-top: 18px;
+        padding: 10px;
+        background: #ff6500;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* EMPTY GAME SPACE */
+    .emptyCard {
+        border: 1px dashed #444;
+        background: #080808;
+        min-height: 190px;
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #666;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px;
+        margin-top: 40px;
+        border-top: 1px solid #222;
+        color: #666;
+    }
+
+    .orange {
+        color: #ff6500;
+    }
+
+    @media(max-width:600px) {
+        header {
+            padding: 0 15px;
+        }
+
+        nav a {
+            margin-left: 10px;
+        }
+
+        .hero {
+            padding-top: 50px;
+        }
+    }
+</style>
 </head>
 
 <body>
 
-<div id="codeScreen">
-  <h1>MathQuiz</h1>
-  <h2>Enter Game Code</h2>
+<!-- CODE ENTRY -->
+<div id="loginScreen">
 
-  <input id="code" placeholder="Game Code">
+    <div class="loginBox">
 
-  <br>
+        <div class="fireLogo">🔥</div>
 
-  <button onclick="unlock()">ENTER</button>
+        <h1>FIRE</h1>
 
-  <p id="wrong"></p>
-</div>
+        <p>Enter the game code to continue</p>
 
+        <input
+            id="codeInput"
+            type="text"
+            inputmode="numeric"
+            maxlength="6"
+            placeholder="ENTER CODE"
+        >
 
-<div id="game">
+        <button id="enterButton" onclick="unlockSite()">
+            ENTER 🔥
+        </button>
 
-  <div id="hud">
-    🪙 Coins: <span id="coins">0</span>
-    &nbsp;&nbsp;
-    🏁 Distance: <span id="distance">0</span>
-    &nbsp;&nbsp;
-    ⚡ Speed: <span id="speed">0</span>
-  </div>
+        <div id="error">
+            Incorrect code. Try again.
+        </div>
 
-  <button id="shopButton" onclick="openShop()">
-    🛷 SLED SHOP
-  </button>
-
-  <div id="shop">
-
-    <h1>SLED SHOP</h1>
-
-    <p>Choose your sled</p>
-
-    <div class="sled">
-      <h2>Classic</h2>
-      <p>Balanced</p>
-      <button onclick="chooseSled(0)">
-        SELECT
-      </button>
     </div>
-
-    <div class="sled">
-      <h2>Blizzard</h2>
-      <p>Faster</p>
-      <button onclick="chooseSled(1)">
-        SELECT
-      </button>
-    </div>
-
-    <div class="sled">
-      <h2>Rocket</h2>
-      <p>Very fast</p>
-      <button onclick="chooseSled(2)">
-        SELECT
-      </button>
-    </div>
-
-    <br>
-
-    <button onclick="closeShop()">
-      CLOSE
-    </button>
-
-  </div>
-
-
-  <div id="crash">
-
-    💥 CRASH!
-
-    <br>
-
-    <button onclick="restart()">
-      RESTART
-    </button>
-
-  </div>
 
 </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- FIRE WEBSITE -->
+<div id="fireWebsite">
+
+    <header>
+
+        <div class="logo">
+            🔥 FIRE
+        </div>
+
+        <nav>
+            <a href="#games">Games</a>
+            <a href="#about">About</a>
+        </nav>
+
+    </header>
+
+
+    <section class="hero">
+
+        <h1>FIRE</h1>
+
+        <p>Your game hub.</p>
+
+    </section>
+
+
+    <main class="container" id="games">
+
+        <h2 class="sectionTitle">
+            🔥 Games
+        </h2>
+
+        <div class="games">
+
+            <!-- GAME 1 -->
+            <div class="gameCard" onclick="openGame('game1')">
+
+                <div>
+                    <div class="gameIcon">🎮</div>
+                    <h3>Game One</h3>
+                    <p>Your first game goes here.</p>
+                </div>
+
+                <button class="playButton">
+                    PLAY
+                </button>
+
+            </div>
+
+
+            <!-- GAME 2 -->
+            <div class="gameCard" onclick="openGame('game2')">
+
+                <div>
+                    <div class="gameIcon">🏎️</div>
+                    <h3>Game Two</h3>
+                    <p>Add another game here.</p>
+                </div>
+
+                <button class="playButton">
+                    PLAY
+                </button>
+
+            </div>
+
+
+            <!-- GAME 3 -->
+            <div class="gameCard" onclick="openGame('game3')">
+
+                <div>
+                    <div class="gameIcon">❄️</div>
+                    <h3>Game Three</h3>
+                    <p>Your next game.</p>
+                </div>
+
+                <button class="playButton">
+                    PLAY
+                </button>
+
+            </div>
+
+
+            <!-- EMPTY SPACE FOR MORE GAMES -->
+            <div class="emptyCard">
+                <div>
+                    <div style="font-size:40px;">＋</div>
+                    <p>More games coming soon...</p>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <section class="container" id="about">
+
+        <h2 class="sectionTitle">
+            About FIRE
+        </h2>
+
+        <p style="color:#888; line-height:1.7;">
+            Welcome to FIRE — a place for games, challenges
+            and more. New games can be added here whenever
+            you want.
+        </p>
+
+    </section>
+
+
+    <footer>
+        FIRE 🔥 — Game Hub
+    </footer>
+
+</div>
+
 
 <script>
 
-/* =========================
-   CODE SCREEN
-========================= */
+function unlockSite() {
 
-function unlock() {
+    const code = document.getElementById("codeInput").value;
+    const error = document.getElementById("error");
 
-  const code =
-    document.getElementById("code").value;
+    if (code === "605223") {
 
-  if (code === "223605") {
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("fireWebsite").style.display = "block";
 
-    document.getElementById("codeScreen").style.display =
-      "none";
+    } else {
 
-    document.getElementById("game").style.display =
-      "block";
+        error.style.display = "block";
 
-    startGame();
-
-  } else {
-
-    document.getElementById("wrong").innerText =
-      "Wrong code!";
-
-  }
-
-}
-
-
-/* =========================
-   THREE.JS
-========================= */
-
-let scene;
-let camera;
-let renderer;
-
-let sled;
-
-let obstacles = [];
-let coinsList = [];
-
-let running = false;
-let crashed = false;
-
-let playerX = 0;
-
-let speed = 0.25;
-
-let distance = 0;
-let coins = 0;
-
-let selectedSled = 0;
-
-let keys = {};
-
-
-/* =========================
-   SLED TYPES
-========================= */
-
-const sleds = [
-
-  {
-    name: "Classic",
-    color: 0xd93636,
-    speed: 0.25
-  },
-
-  {
-    name: "Blizzard",
-    color: 0x38a8ff,
-    speed: 0.31
-  },
-
-  {
-    name: "Rocket",
-    color: 0xf2b632,
-    speed: 0.38
-  }
-
-];
-
-
-/* =========================
-   CONTROLS
-========================= */
-
-document.addEventListener(
-  "keydown",
-  e => {
-
-    keys[e.key.toLowerCase()] = true;
-
-  }
-);
-
-document.addEventListener(
-  "keyup",
-  e => {
-
-    keys[e.key.toLowerCase()] = false;
-
-  }
-);
-
-
-/* =========================
-   START
-========================= */
-
-function startGame() {
-
-  scene =
-    new THREE.Scene();
-
-  scene.background =
-    new THREE.Color(0x8ed8ff);
-
-
-  camera =
-    new THREE.PerspectiveCamera(
-      70,
-      window.innerWidth /
-      window.innerHeight,
-      0.1,
-      1000
-    );
-
-
-  renderer =
-    new THREE.WebGLRenderer({
-      antialias: true
-    });
-
-  renderer.setSize(
-    window.innerWidth,
-    window.innerHeight
-  );
-
-  document
-    .getElementById("game")
-    .appendChild(renderer.domElement);
-
-
-  /* LIGHT */
-
-  const light =
-    new THREE.HemisphereLight(
-      0xffffff,
-      0x668899,
-      1.5
-    );
-
-  scene.add(light);
-
-
-  /* CAMERA */
-
-  camera.position.set(
-    0,
-    4,
-    7
-  );
-
-
-  /* SLOPE */
-
-  createSlope();
-
-
-  /* PLAYER */
-
-  createSled();
-
-
-  /* WORLD */
-
-  createWorld();
-
-
-  running = true;
-
-  crashed = false;
-
-  requestAnimationFrame(loop);
-
-}
-
-
-/* =========================
-   SLOPE
-========================= */
-
-function createSlope() {
-
-  const geometry =
-    new THREE.PlaneGeometry(
-      18,
-      2000
-    );
-
-  const material =
-    new THREE.MeshStandardMaterial({
-      color: 0xf5fbff
-    });
-
-  const slope =
-    new THREE.Mesh(
-      geometry,
-      material
-    );
-
-  slope.rotation.x =
-    -Math.PI / 2;
-
-  slope.position.y = 0;
-
-  slope.position.z = -900;
-
-  scene.add(slope);
-
-}
-
-
-/* =========================
-   SLED
-========================= */
-
-function createSled() {
-
-  sled =
-    new THREE.Group();
-
-
-  const bodyGeometry =
-    new THREE.BoxGeometry(
-      1.4,
-      0.25,
-      2.3
-    );
-
-  const bodyMaterial =
-    new THREE.MeshStandardMaterial({
-      color:
-        sleds[selectedSled].color
-    });
-
-
-  const body =
-    new THREE.Mesh(
-      bodyGeometry,
-      bodyMaterial
-    );
-
-
-  sled.add(body);
-
-
-  /* RIDER */
-
-  const riderGeometry =
-    new THREE.BoxGeometry(
-      .55,
-      1.1,
-      .55
-    );
-
-  const riderMaterial =
-    new THREE.MeshStandardMaterial({
-      color: 0x2459c8
-    });
-
-
-  const rider =
-    new THREE.Mesh(
-      riderGeometry,
-      riderMaterial
-    );
-
-  rider.position.y =
-    .65;
-
-  sled.add(rider);
-
-
-  /* HEAD */
-
-  const headGeometry =
-    new THREE.SphereGeometry(
-      .32,
-      16,
-      16
-    );
-
-  const headMaterial =
-    new THREE.MeshStandardMaterial({
-      color: 0xf0c5a3
-    });
-
-
-  const head =
-    new THREE.Mesh(
-      headGeometry,
-      headMaterial
-    );
-
-  head.position.y =
-    1.35;
-
-  sled.add(head);
-
-
-  sled.position.set(
-    0,
-    .45,
-    3
-  );
-
-
-  scene.add(sled);
-
-}
-
-
-/* =========================
-   WORLD
-========================= */
-
-function createWorld() {
-
-  for (
-    let i = 0;
-    i < 80;
-    i++
-  ) {
-
-    createObstacle(
-      -i * 18 - 30
-    );
-
-  }
-
-
-  for (
-    let i = 0;
-    i < 60;
-    i++
-  ) {
-
-    createCoin(
-      -i * 25 - 45
-    );
-
-  }
-
-}
-
-
-/* =========================
-   OBSTACLE
-========================= */
-
-function createObstacle(z) {
-
-  let x;
-
-  /*
-    Keep a large safe area
-    around the starting point.
-  */
-
-  do {
-
-    x =
-      (Math.random() * 2 - 1)
-      * 6;
-
-  } while (
-    Math.abs(x) < 2.2 &&
-    z > -120
-  );
-
-
-  const geometry =
-    Math.random() > .5
-
-      ? new THREE.ConeGeometry(
-          1.1,
-          3.5,
-          8
-        )
-
-      : new THREE.DodecahedronGeometry(
-          1.3
-        );
-
-
-  const material =
-    new THREE.MeshStandardMaterial({
-      color:
-        Math.random() > .5
-          ? 0x276b45
-          : 0x777777
-    });
-
-
-  const obstacle =
-    new THREE.Mesh(
-      geometry,
-      material
-    );
-
-
-  obstacle.position.set(
-    x,
-    1,
-    z
-  );
-
-
-  obstacle.userData.hitbox =
-    new THREE.Box3();
-
-
-  scene.add(obstacle);
-
-  obstacles.push(obstacle);
-
-}
-
-
-/* =========================
-   COIN
-========================= */
-
-function createCoin(z) {
-
-  const x =
-    (Math.random() * 2 - 1)
-    * 5;
-
-
-  const geometry =
-    new THREE.TorusGeometry(
-      .45,
-      .14,
-      10,
-      20
-    );
-
-
-  const material =
-    new THREE.MeshStandardMaterial({
-      color: 0xffd633
-    });
-
-
-  const coin =
-    new THREE.Mesh(
-      geometry,
-      material
-    );
-
-
-  coin.position.set(
-    x,
-    1.2,
-    z
-  );
-
-
-  coin.rotation.x =
-    Math.PI / 2;
-
-
-  coin.userData.hitbox =
-    new THREE.Box3();
-
-
-  scene.add(coin);
-
-  coinsList.push(coin);
-
-}
-
-
-/* =========================
-   GAME LOOP
-========================= */
-
-function loop() {
-
-  if (!running) return;
-
-  update();
-
-  renderer.render(
-    scene,
-    camera
-  );
-
-  requestAnimationFrame(loop);
-
-}
-
-
-/* =========================
-   UPDATE
-========================= */
-
-function update() {
-
-  if (crashed) return;
-
-
-  /* STEERING */
-
-  if (
-    keys["a"] ||
-    keys["arrowleft"]
-  ) {
-
-    playerX -= .13;
-
-  }
-
-
-  if (
-    keys["d"] ||
-    keys["arrowright"]
-  ) {
-
-    playerX += .13;
-
-  }
-
-
-  playerX =
-    Math.max(
-      -6,
-      Math.min(6, playerX)
-    );
-
-
-  /* MOVE PLAYER */
-
-  sled.position.x +=
-    (playerX - sled.position.x)
-    * .15;
-
-
-  /* MOVE WORLD */
-
-  const currentSpeed =
-    sleds[selectedSled].speed;
-
-
-  for (
-    const obstacle of obstacles
-  ) {
-
-    obstacle.position.z +=
-      currentSpeed;
-
-
-    if (
-      obstacle.position.z > 12
-    ) {
-
-      obstacle.position.z =
-        -1500;
-
-      obstacle.position.x =
-        (Math.random() * 2 - 1)
-        * 6;
+        document.getElementById("codeInput").value = "";
 
     }
+}
 
 
-    /* ACCURATE HITBOX */
+/* Press ENTER instead of clicking the button */
+document.getElementById("codeInput").addEventListener("keydown", function(event) {
 
-    obstacle.userData.hitbox
-      .setFromObject(obstacle);
-
-
-    const playerBox =
-      new THREE.Box3()
-        .setFromObject(sled);
-
-
-    if (
-      playerBox.intersectsBox(
-        obstacle.userData.hitbox
-      )
-    ) {
-
-      crash();
-
-      return;
-
+    if (event.key === "Enter") {
+        unlockSite();
     }
 
-  }
+});
 
 
-  /* COINS */
+/* Game buttons */
+function openGame(game) {
 
-  for (
-    const coin of coinsList
-  ) {
-
-    coin.position.z +=
-      currentSpeed;
-
-    coin.rotation.z += .08;
-
-
-    if (
-      coin.position.z > 12
-    ) {
-
-      coin.position.z =
-        -1500;
-
-    }
-
-
-    coin.userData.hitbox
-      .setFromObject(coin);
-
-
-    const playerBox =
-      new THREE.Box3()
-        .setFromObject(sled);
-
-
-    if (
-      playerBox.intersectsBox(
-        coin.userData.hitbox
-      )
-    ) {
-
-      coins++;
-
-      document.getElementById("coins")
-        .innerText = coins;
-
-      coin.position.z =
-        -1500;
-
-    }
-
-  }
-
-
-  /* DISTANCE */
-
-  distance +=
-    currentSpeed;
-
-
-  document.getElementById("distance")
-    .innerText =
-    Math.floor(distance * 10);
-
-
-  document.getElementById("speed")
-    .innerText =
-    Math.floor(currentSpeed * 100);
-
-
-  /* CAMERA */
-
-  camera.position.x +=
-    (sled.position.x -
-     camera.position.x)
-    * .08;
-
-
-  camera.lookAt(
-    sled.position.x,
-    0,
-    -10
-  );
-
-}
-
-
-/* =========================
-   CRASH
-========================= */
-
-function crash() {
-
-  crashed = true;
-
-  running = false;
-
-  document.getElementById("crash")
-    .style.display = "block";
-
-}
-
-
-/* =========================
-   RESTART
-========================= */
-
-function restart() {
-
-  location.reload();
-
-}
-
-
-/* =========================
-   SHOP
-========================= */
-
-function openShop() {
-
-  if (running) {
-
-    running = false;
-
-  }
-
-  document.getElementById("shop")
-    .style.display = "block";
-
-}
-
-
-function closeShop() {
-
-  document.getElementById("shop")
-    .style.display = "none";
-
-  if (!crashed) {
-
-    running = true;
-
-    requestAnimationFrame(loop);
-
-  }
-
-}
-
-
-function chooseSled(number) {
-
-  selectedSled = number;
-
-  document.getElementById("shop")
-    .style.display = "none";
-
-  /*
-    Change the existing sled's colour.
-  */
-
-  sled.children[0]
-    .material.color.setHex(
-      sleds[number].color
+    alert(
+        "This game slot is ready for " +
+        game +
+        "!\n\nWe can put your actual game here next."
     );
 
-
-  if (!crashed) {
-
-    running = true;
-
-    requestAnimationFrame(loop);
-
-  }
-
 }
-
-
-/* =========================
-   RESIZE
-========================= */
-
-window.addEventListener(
-  "resize",
-  function() {
-
-    if (!camera || !renderer)
-      return;
-
-    camera.aspect =
-      window.innerWidth /
-      window.innerHeight;
-
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(
-      window.innerWidth,
-      window.innerHeight
-    );
-
-  }
-);
 
 </script>
 
 </body>
 </html>
+```
